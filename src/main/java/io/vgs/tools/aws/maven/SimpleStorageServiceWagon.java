@@ -18,17 +18,10 @@ package io.vgs.tools.aws.maven;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.ClientConfiguration;
-import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.internal.Mimetypes;
 import com.amazonaws.services.s3.model.*;
-import com.amazonaws.services.securitytoken.AWSSecurityTokenService;
-import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClient;
-import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder;
-import com.amazonaws.services.securitytoken.model.AssumeRoleRequest;
-import com.amazonaws.services.securitytoken.model.AssumeRoleResult;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.authentication.AuthenticationException;
@@ -105,6 +98,7 @@ public final class SimpleStorageServiceWagon extends AbstractWagon {
                 .withClientConfiguration(clientConfiguration)
                 .withRegion(noRegionAmazonS3.getBucketLocation(this.bucketName))
                 .build();
+
         }
     }
 
@@ -206,6 +200,7 @@ public final class SimpleStorageServiceWagon extends AbstractWagon {
             throws TransferFailedException, ResourceDoesNotExistException {
         InputStream in = null;
         OutputStream out = null;
+
         try {
             S3Object s3Object = this.amazonS3.getObject(this.bucketName, getKey(resourceName));
 
