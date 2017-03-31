@@ -17,15 +17,19 @@
 package io.vgs.tools.aws.maven;
 
 import com.amazonaws.auth.AWSCredentialsProviderChain;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import org.apache.maven.wagon.authentication.AuthenticationInfo;
 
 final class AuthenticationInfoAWSCredentialsProviderChain extends AWSCredentialsProviderChain {
 
   AuthenticationInfoAWSCredentialsProviderChain(AuthenticationInfo authenticationInfo) {
-    super(
-        new DefaultAWSCredentialsProviderChain(),
+        super(new EnvironmentVariableCredentialsProvider(),
+                new SystemPropertiesCredentialsProvider(),
+                new InstanceProfileCredentialsProvider(),
+                new ProfileCredentialsProvider(),
         new AuthenticationInfoAWSCredentialsProvider(authenticationInfo)
     );
   }

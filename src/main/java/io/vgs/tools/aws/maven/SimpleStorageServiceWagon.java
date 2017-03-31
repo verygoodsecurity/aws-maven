@@ -21,12 +21,9 @@ import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.internal.Mimetypes;
 import com.amazonaws.services.s3.model.*;
-import com.amazonaws.services.securitytoken.AWSSecurityTokenService;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClient;
-import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder;
 import com.amazonaws.services.securitytoken.model.AssumeRoleRequest;
 import com.amazonaws.services.securitytoken.model.AssumeRoleResult;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
@@ -95,17 +92,39 @@ public final class SimpleStorageServiceWagon extends AbstractWagon {
             this.bucketName = S3Utils.getBucketName(repository);
             this.baseDirectory = S3Utils.getBaseDirectory(repository);
 
-            AmazonS3 noRegionAmazonS3 = AmazonS3ClientBuilder.standard()
-                .withCredentials(credentialsProvider)
-                .withClientConfiguration(clientConfiguration)
-                .build();
+            if (isAssumedRoleRequested()) {
+                this.amazonS3 = new AmazonS3Client(
+                        getAssumedCredentialsIfRequested(credentialsProvider), clientConfiguration);
+            } else {
+                this.amazonS3 = new AmazonS3Client(credentialsProvider, clientConfiguration);
+            }
 
-            this.amazonS3 = AmazonS3ClientBuilder.standard()
-                .withCredentials(credentialsProvider)
-                .withClientConfiguration(clientConfiguration)
-                .withRegion(noRegionAmazonS3.getBucketLocation(this.bucketName))
-                .build();
+            io.vgs.tools.aws.maven.Region region = io.vgs.tools.aws.maven.Region.fromLocationConstraint(this.amazonS3.getBucketLocation(this.bucketName));
+            this.amazonS3.setEndpoint(region.getEndpoint());
         }
+    }
+
+    protected BasicSessionCredentials getAssumedCredentialsIfRequested(AuthenticationInfoAWSCredentialsProviderChain credentials) {
+
+        AWSSecurityTokenServiceClient stsClient = new
+                AWSSecurityTokenServiceClient(credentials);
+
+        String ARN = getAssumedRoleARN();
+        String SESSION = getAssumedRoleSessionName();
+
+        AssumeRoleRequest assumeRequest = new AssumeRoleRequest()
+                .withRoleArn(ARN)
+                .withRoleSessionName(SESSION);
+
+        AssumeRoleResult assumeResult = stsClient.assumeRole(assumeRequest);
+
+        BasicSessionCredentials assumedCredentials =
+                new BasicSessionCredentials(
+                        assumeResult.getCredentials().getAccessKeyId(),
+                        assumeResult.getCredentials().getSecretAccessKey(),
+                        assumeResult.getCredentials().getSessionToken());
+
+        return assumedCredentials;
     }
 
     protected String getAssumedRoleVariableFromConfigFile(String key) {
