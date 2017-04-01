@@ -1,7 +1,7 @@
 # AWS Maven Wagon
 
 This project is a fork from [https://github.com/spring-projects/aws-maven](https://github.com/spring-projects/aws-maven) to 
-support development and operations at Finnish Brodcasting Company ( YLE ). No guarantees are made for support or updating
+support development and operations at Very Good Security ( VGS ). No guarantees are made for support or updating
 the component, but as long as we are using it actively we will update it as we need it.
 
 Wagon also works with Leiningen out of the box.
@@ -26,14 +26,16 @@ To get the dependency add to your pom:
 
 
 ```xml
-<repositories>
-    <repository>
-      <id>yle-public</id>
-      <name>Yle public repository</name>
-      <url>http://maven.c4.yle.fi/release</url>
-      <layout>default</layout>
-    </repository>
-</repositories>
+<pluginRepositories>
+    <pluginRepository>
+        <id>bintray-vgs</id>
+        <name>bintray-vgs</name>
+        <url>https://dl.bintray.com/vg/vgs-misc</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>
 ```
 
 And plugin dependency:
@@ -46,9 +48,9 @@ And plugin dependency:
     <extensions>
       ...
       <extension>
-      <groupId>fi.yle.tools</groupId>
+      <groupId>io.vgs.tools</groupId>
       <artifactId>aws-maven</artifactId>
-      <version>1.4.0</version>
+      <version>1.4.2</version>
       </extension>
       ...
     </extensions>
@@ -110,37 +112,20 @@ Alternatively, the access and secret keys for the account can be provided using
 * `AWS_ACCESS_KEY_ID` (or `AWS_ACCESS_KEY`) and `AWS_SECRET_KEY` (or `AWS_SECRET_ACCESS_KEY`) [environment variables][env-var]
 * `aws.accessKeyId` and `aws.secretKey` [system properties][sys-prop]
 * The Amazon EC2 [Instance Metadata Service][instance-metadata]
-* AWS-Profile ( Can be overridden with AWS_PROFILE variable )
+* AWS-Profile ( Can be overridden with `AWS_PROFILE` variable )
 
-## Using IAM roles
+For IAM Impersonation make sure your `~/.aws/credentials` looks like this
+  
+```config
+[root]
+aws_access_key_id = AKIAxxxx
+aws_secret_access_key = asdfcvbn1234
+[impersonated-profile]
+role_arn = arn:aws:iam::1234567890:role/CrossAccountSignIn
+source_profile = root
+``` 
 
-### By using environment variables
-
-If users want to / or need to use roles while accessing services, an assumed role can be taken into use by defining two environment variables.
-
-```bash
-export AWS_ASSUME_ROLE_ARN="ARN:TO:ROLE"
-export AWS_ASSUME_ROLE_NAME="session-name-for-role"
-```
-
-#### By using project specific config file
-
-Alternative way is to create `.s3_config` file to the project root folder (syntax follows Java `.properties` file syntax):
-```
-# .s3_config
-AWS_ASSUME_ROLE_ARN=ARN:TO:ROLE
-AWS_ASSUME_ROLE_NAME=session-name-for-role
-```
-
-If you want to use different filename / path for your config file, you can use 
-`S3_MAVEN_CONFIG_FILE=<path-to-your-config-file>` environment variable.
-
-If you want to disable ASU even though you've set the config file (e.g. in your
-CI environment), you can override the config variables with empty environment variables
-```
-export AWS_ASSUME_ROLE_ARN=
-export AWS_ASSUME_ROLE_NAME=
-```
+You can now install via `AWS_PROFILE=impersonated-profile AWS_REGION=us-west-2 mvn clean install`
 
 #### Config precedence
 
