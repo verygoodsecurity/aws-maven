@@ -1,5 +1,7 @@
 # AWS Maven Wagon
 
+[![CircleCI](https://circleci.com/gh/verygoodsecurity/aws-maven.svg?style=svg)](https://circleci.com/gh/verygoodsecurity/aws-maven)
+
 This project is a fork from [https://github.com/spring-projects/aws-maven](https://github.com/spring-projects/aws-maven) to 
 support development and operations at Very Good Security ( VGS ). No guarantees are made for support or updating
 the component, but as long as we are using it actively we will update it as we need it.
