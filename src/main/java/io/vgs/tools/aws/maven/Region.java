@@ -18,15 +18,25 @@ package io.vgs.tools.aws.maven;
 
 enum Region {
     US("US", "s3.amazonaws.com"), //
+    US_EAST_OHIO("us-east-2", "s3.us-east-2.amazonaws.com"),
     US_WEST_OREGON("us-west-2", "s3-us-west-2.amazonaws.com"), //
     US_WEST_NORTHERN_CALIFORNIA("us-west-1", "s3-us-west-1.amazonaws.com"), //
+
+    GOV_CLOUD("us-gov-west-1", "us-gov-west-1.amazonaws.com"), //
+
+    CA_CENTRAL("ca-central-1", "s3.ca-central-1.amazonaws.com"),
+
     EU("EU", "s3-eu-west-1.amazonaws.com"), //
     EU_FRANKFURT("eu-central-1", "s3-eu-central-1.amazonaws.com"),
     EU_IRELAND("eu-west-1", "s3-eu-west-1.amazonaws.com"), //
-    GOV_CLOUD("us-gov-west-1", "us-gov-west-1.amazonaws.com"), //
+    EU_LONDON("eu-west-2", "s3.eu-west-2.amazonaws.com"),
+
     ASIA_PACIFIC_SINGAPORE("ap-southeast-1", "s3-ap-southeast-1.amazonaws.com"), //
     ASIA_PACIFIC_SYDNEY("ap-southeast-2", "s3-ap-southeast-2.amazonaws.com"), //
     ASIA_PACIFIC_TOKYO("ap-northeast-1", "s3-ap-northeast-1.amazonaws.com"), //
+    ASIA_PACIFIC_MUMBAI("ap-south-1", "s3.ap-south-1.amazonaws.com"),
+    ASIA_PACIFIC_SEOUL("ap-northeast-2", "s3.ap-northeast-2.amazonaws.com"),
+
     SOUTH_AMERICA_SAO_PALO("sa-east-1", "s3-sa-east-1.amazonaws.com");
 
     private final String locationConstraint;
