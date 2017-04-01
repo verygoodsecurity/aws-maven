@@ -6,14 +6,6 @@ This project is a fork from [https://github.com/spring-projects/aws-maven](https
 support development and operations at Very Good Security ( VGS ). No guarantees are made for support or updating
 the component, but as long as we are using it actively we will update it as we need it.
 
-Wagon also works with Leiningen out of the box.
-
-Add following to your `project.clj`
-
-    :plugins [[fi.yle.tools/aws-maven "1.4.0"]]
-    :plugin-repositories [["yle-repo" {:url       "http://maven.c4.yle.fi/release"
-                                       :snapshots false}]]
-
 ## Building and deploying this wagon
 
 mvn install
@@ -22,7 +14,7 @@ mvn deploy
 
 ## Usage
 To publish Maven artifacts to S3 a build extension must be defined in a project's `pom.xml`.  The latest version of the wagon can 
-be found from from YLE public mvn repository http://maven.c4.yle.fi/release
+be found from on Bintray public mvn repository https://dl.bintray.com/vg/vgs-misc
 
 To get the dependency add to your pom:
 
