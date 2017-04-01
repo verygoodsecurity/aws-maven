@@ -1,0 +1,13 @@
+---
+machine:
+  services:
+    - docker
+  java:
+    version: oraclejdk8
+dependencies:
+  override:
+    - mvn clean dependency:go-offline install -Dmaven.test.skip.exec --fail-never --threads 5 -B
+
+test:
+  override:
+    - mvn verify

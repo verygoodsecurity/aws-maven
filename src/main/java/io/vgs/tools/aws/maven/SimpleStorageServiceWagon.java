@@ -21,7 +21,14 @@ import com.amazonaws.ClientConfiguration;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.internal.Mimetypes;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.authentication.AuthenticationException;
@@ -29,18 +36,26 @@ import org.apache.maven.wagon.authentication.AuthenticationInfo;
 import org.apache.maven.wagon.proxy.ProxyInfoProvider;
 import org.apache.maven.wagon.repository.Repository;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * An implementation of the Maven Wagon interface that allows you to access the Amazon S3 service. URLs that reference
- * the S3 service should be in the form of <code>s3://bucket.name</code>. As an example
- * <code>s3://static.springframework.org</code> would put files into the <code>static.springframework.org</code> bucket
- * on the S3 service.
- * <p>
- * This implementation uses the <code>username</code> and <code>passphrase</code> portions of the server authentication
+ * An implementation of the Maven Wagon interface that allows you to access the Amazon S3 service.
+ * URLs that reference the S3 service should be in the form of <code>s3://bucket.name</code>. As an
+ * example <code>s3://static.springframework.org</code> would put files into the
+ * <code>static.springframework.org</code> bucket on the S3 service. <p> This implementation uses
+ * the <code>username</code> and <code>passphrase</code> portions of the server authentication
  * metadata for credentials.
  */
 public final class SimpleStorageServiceWagon extends AbstractWagon {
@@ -89,15 +104,15 @@ public final class SimpleStorageServiceWagon extends AbstractWagon {
             this.baseDirectory = S3Utils.getBaseDirectory(repository);
 
             AmazonS3 noRegionAmazonS3 = AmazonS3ClientBuilder.standard()
-                .withCredentials(credentialsProvider)
-                .withClientConfiguration(clientConfiguration)
-                .build();
+                    .withCredentials(credentialsProvider)
+                    .withClientConfiguration(clientConfiguration)
+                    .build();
 
             this.amazonS3 = AmazonS3ClientBuilder.standard()
-                .withCredentials(credentialsProvider)
-                .withClientConfiguration(clientConfiguration)
-                .withRegion(noRegionAmazonS3.getBucketLocation(this.bucketName))
-                .build();
+                    .withCredentials(credentialsProvider)
+                    .withClientConfiguration(clientConfiguration)
+                    .withRegion(noRegionAmazonS3.getBucketLocation(this.bucketName))
+                    .build();
 
         }
     }
@@ -299,7 +314,7 @@ public final class SimpleStorageServiceWagon extends AbstractWagon {
         objectMetadata.setContentLength(0);
 
         return new PutObjectRequest(this.bucketName, key, inputStream, objectMetadata)
-            .withCannedAcl(CannedAccessControlList.BucketOwnerFullControl);
+                .withCannedAcl(CannedAccessControlList.BucketOwnerFullControl);
     }
 
 }
