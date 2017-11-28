@@ -24,7 +24,7 @@ To get the dependency add to your pom:
     <pluginRepository>
         <id>bintray-vgs</id>
         <name>bintray-vgs</name>
-        <url>https://dl.bintray.com/vg/vgs-misc</url>
+        <url>https://dl.bintray.com/vg/vgs-oss</url>
         <snapshots>
             <enabled>true</enabled>
         </snapshots>
@@ -44,7 +44,7 @@ And plugin dependency:
       <extension>
       <groupId>io.vgs.tools</groupId>
       <artifactId>aws-maven</artifactId>
-      <version>1.4.2</version>
+      <version>1.4.3</version>
       </extension>
       ...
     </extensions>
