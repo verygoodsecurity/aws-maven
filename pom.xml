@@ -143,7 +143,7 @@
     <repository>
       <id>bintray-repo-aws-maven</id>
       <name>vgs-aws-maven</name>
-      <url>https://api.bintray.com/maven/vg/vgs-misc/aws-maven/</url>
+      <url>https://api.bintray.com/maven/vg/vgs-oss/aws-maven/</url>
     </repository>
   </distributionManagement>
 
