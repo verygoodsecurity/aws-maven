@@ -30,12 +30,16 @@ enum Region {
     EU_FRANKFURT("eu-central-1", "s3-eu-central-1.amazonaws.com"),
     EU_IRELAND("eu-west-1", "s3-eu-west-1.amazonaws.com"), //
     EU_LONDON("eu-west-2", "s3.eu-west-2.amazonaws.com"),
+    EU_PARIS("eu-west-3", "s3.eu-west-3.amazonaws.com"),
 
     ASIA_PACIFIC_SINGAPORE("ap-southeast-1", "s3-ap-southeast-1.amazonaws.com"), //
     ASIA_PACIFIC_SYDNEY("ap-southeast-2", "s3-ap-southeast-2.amazonaws.com"), //
     ASIA_PACIFIC_TOKYO("ap-northeast-1", "s3-ap-northeast-1.amazonaws.com"), //
     ASIA_PACIFIC_MUMBAI("ap-south-1", "s3.ap-south-1.amazonaws.com"),
     ASIA_PACIFIC_SEOUL("ap-northeast-2", "s3.ap-northeast-2.amazonaws.com"),
+
+    CHINA_BEIJING("cn-north-1", "s3.cn-north-1.amazonaws.com.cn"),
+    CHINA_NINGXIA("cn-northwest-1", "s3.cn-northwest-1.amazonaws.com.cn"),
 
     SOUTH_AMERICA_SAO_PALO("sa-east-1", "s3-sa-east-1.amazonaws.com");
 
