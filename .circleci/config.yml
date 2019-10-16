@@ -1,0 +1,73 @@
+job-defaults: &job-defaults
+  working_directory: &working_directory
+    ~/aws-maven
+  attach_workspace: &attach_workspace
+      attach_workspace:
+        at: *working_directory
+  test_results_directory: &test_results_directory
+    /tmp/test-results
+
+machine-setup: &machine-setup
+  machine:
+    enabled: true
+    image: circleci/classic:201710-02
+
+# Template to save Maven dependency cache to restore it in another jobs
+save-maven-cache: &save-maven-cache
+  save_cache:
+    key: aws-maven-{{ checksum "pom.xml" }}
+    paths:
+      - ~/.m2
+
+restore-maven-cache: &restore-maven-cache
+  restore_cache:
+    key: aws-maven-{{ checksum "pom.xml" }}
+
+version: 2
+jobs:
+  build:
+    <<: *job-defaults
+    <<: *machine-setup
+    steps:
+      - checkout
+      - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
+
+      - <<: *save-maven-cache
+      - persist_to_workspace:
+          root: ~/aws-maven
+          paths:
+            - "*"
+
+  build-jdk-11:
+    <<: *job-defaults
+    docker:
+      - image: quay.io/verygoodsecurity/java11:production-0.0.42
+    steps:
+      - checkout
+      - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
+
+  test:
+    <<: *job-defaults
+    <<: *machine-setup
+    steps:
+      - *attach_workspace
+      - <<: *restore-maven-cache
+      - run: mvn test
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build-jdk-11:
+          context: artifact-publisher
+
+      - build:
+          context: artifact-publisher
+          filters:
+            tags:
+              only: /.*/
+
+      - test:
+          context: artifact-publisher
+          requires:
+            - build
