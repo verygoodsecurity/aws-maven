@@ -52,7 +52,7 @@ jobs:
     steps:
       - *attach_workspace
       - <<: *restore-maven-cache
-      - run: mvn test
+      - run: mvn verify
 
 workflows:
   version: 2
