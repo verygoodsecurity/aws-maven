@@ -19,18 +19,17 @@ package io.vgs.tools.aws.maven;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.events.SessionEvent;
 import org.apache.maven.wagon.events.SessionListener;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.io.IOException;
 
 import io.vgs.tools.aws.maven.matchers.Matchers;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static io.vgs.tools.aws.maven.matchers.Matchers.eq;
 
 public final class StandardSessionListenerSupportTest {
 
@@ -41,7 +40,7 @@ public final class StandardSessionListenerSupportTest {
     private final StandardSessionListenerSupport sessionListenerSupport =
             new StandardSessionListenerSupport(this.wagon);
 
-    @Before
+    @BeforeEach
     public void addSessionListener() {
         this.sessionListenerSupport.addSessionListener(this.sessionListener);
     }

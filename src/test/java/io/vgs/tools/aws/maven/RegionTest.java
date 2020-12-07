@@ -16,9 +16,11 @@
 
 package io.vgs.tools.aws.maven;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public final class RegionTest {
 
@@ -34,9 +36,14 @@ public final class RegionTest {
         assertEndpoint("sa-east-1", "s3-sa-east-1.amazonaws.com");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void invalidLocationConstraint() {
-        Region.fromLocationConstraint("foo");
+      assertThrows(IllegalArgumentException.class, new Executable() {
+        @Override
+        public void execute() throws Throwable {
+          Region.fromLocationConstraint("foo");
+        }
+      });
     }
 
     private void assertEndpoint(String locationConstraint, String endpoint) {

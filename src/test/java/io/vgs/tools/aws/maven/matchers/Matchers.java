@@ -26,15 +26,15 @@ public final class Matchers {
     }
 
     public static ListObjectsRequest eq(ListObjectsRequest listObjectsRequest) {
-        return org.mockito.Matchers.argThat(new ListObjectsRequestMatcher(listObjectsRequest));
+        return org.mockito.ArgumentMatchers.argThat(new ListObjectsRequestMatcher(listObjectsRequest));
     }
 
     public static SessionEvent eq(SessionEvent sessionEvent) {
-        return org.mockito.Matchers.argThat(new SessionEventMatcher(sessionEvent));
+        return org.mockito.ArgumentMatchers.argThat(new SessionEventMatcher(sessionEvent));
     }
 
     public static TransferEvent eq(TransferEvent transferEvent) {
-        return org.mockito.Matchers.argThat(new TransferEventMatcher(transferEvent));
+        return org.mockito.ArgumentMatchers.argThat(new TransferEventMatcher(transferEvent));
     }
 
 }

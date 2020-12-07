@@ -16,16 +16,15 @@
 
 package io.vgs.tools.aws.maven;
 
-import org.junit.After;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public final class TransferProgressFileOutputStreamTest {
 
@@ -45,7 +44,7 @@ public final class TransferProgressFileOutputStreamTest {
         this.outputStream = new TransferProgressFileOutputStream(new File("target/test.txt"), this.transferProgress);
     }
 
-    @After
+    @AfterEach
     public void closeStream() {
         IoUtils.closeQuietly(this.outputStream);
     }

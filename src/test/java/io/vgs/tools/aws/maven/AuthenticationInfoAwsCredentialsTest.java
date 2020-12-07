@@ -17,9 +17,9 @@
 package io.vgs.tools.aws.maven;
 
 import org.apache.maven.wagon.authentication.AuthenticationInfo;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

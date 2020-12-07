@@ -17,10 +17,9 @@
 package io.vgs.tools.aws.maven.matchers;
 
 import com.amazonaws.services.s3.model.ListObjectsRequest;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
+import org.mockito.ArgumentMatcher;
 
-final class ListObjectsRequestMatcher extends BaseMatcher<ListObjectsRequest> {
+final class ListObjectsRequestMatcher implements ArgumentMatcher<ListObjectsRequest> {
 
     private final ListObjectsRequest listObjectsRequest;
 
@@ -31,7 +30,7 @@ final class ListObjectsRequestMatcher extends BaseMatcher<ListObjectsRequest> {
     // CHECKSTYLE:OFF
 
     @Override
-    public boolean matches(Object obj) {
+    public boolean matches(ListObjectsRequest obj) {
         if (this.listObjectsRequest == obj) {
             return true;
         }
@@ -81,10 +80,5 @@ final class ListObjectsRequestMatcher extends BaseMatcher<ListObjectsRequest> {
     }
 
     // CHECKSTYLE:ON
-
-    @Override
-    public void describeTo(Description description) {
-        description.appendValue(this.listObjectsRequest);
-    }
 
 }

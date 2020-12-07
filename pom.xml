@@ -14,9 +14,8 @@
 
   <properties>
     <amazonaws.version>1.11.271</amazonaws.version>
-    <junit.version>4.11</junit.version>
     <logback.version>1.1.1</logback.version>
-    <mockito.version>1.9.5</mockito.version>
+    <mockito.version>3.6.28</mockito.version>
     <slf4j.version>1.7.6</slf4j.version>
     <wagon.version>2.6</wagon.version>
     <jaxb.version>2.4.0-b180725.0427</jaxb.version>
@@ -96,9 +95,9 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.7.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -135,7 +134,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.8.1</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
