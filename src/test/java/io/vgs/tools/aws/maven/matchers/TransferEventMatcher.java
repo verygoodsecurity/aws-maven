@@ -17,10 +17,9 @@
 package io.vgs.tools.aws.maven.matchers;
 
 import org.apache.maven.wagon.events.TransferEvent;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
+import org.mockito.ArgumentMatcher;
 
-final class TransferEventMatcher extends BaseMatcher<TransferEvent> {
+final class TransferEventMatcher implements ArgumentMatcher<TransferEvent> {
 
     private final TransferEvent transferEvent;
 
@@ -31,7 +30,7 @@ final class TransferEventMatcher extends BaseMatcher<TransferEvent> {
     // CHECKSTYLE:OFF
 
     @Override
-    public boolean matches(Object obj) {
+    public boolean matches(TransferEvent obj) {
         if (this.transferEvent == obj) {
             return true;
         }
@@ -73,10 +72,5 @@ final class TransferEventMatcher extends BaseMatcher<TransferEvent> {
     }
 
     // CHECKSTYLE:ON
-
-    @Override
-    public void describeTo(Description description) {
-        description.appendValue(this.transferEvent);
-    }
 
 }
