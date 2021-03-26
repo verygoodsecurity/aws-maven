@@ -13,7 +13,7 @@
   <description>Standard Maven wagon support for s3:// urls and IAM roles</description>
 
   <properties>
-    <amazonaws.version>1.11.271</amazonaws.version>
+    <amazonaws.version>1.11.983</amazonaws.version>
     <junit.version>4.11</junit.version>
     <logback.version>1.1.1</logback.version>
     <mockito.version>1.9.5</mockito.version>
