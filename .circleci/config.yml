@@ -48,7 +48,7 @@ jobs:
     steps:
       - run:
           name: Import GPG key
-          command: echo -e "$GPG_SECRET_KEY" | gpg --import
+          command: gpg --no-tty --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --output secrets.env --decrypt secrets.env.gpg
       - checkout
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
