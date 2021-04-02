@@ -42,6 +42,9 @@ jobs:
     <<: *job-defaults
     docker:
       - image: quay.io/verygoodsecurity/java11:production-0.0.42
+        auth:
+          username: $QUAY_DOCKER_LOGIN
+          password: $QUAY_DOCKER_LOGIN_PASSWORD
     steps:
       - checkout
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
