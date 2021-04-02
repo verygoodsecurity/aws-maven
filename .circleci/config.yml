@@ -27,8 +27,8 @@ setup-gpg: &setup-gpg
   run:
     name: "Configuring gpg"
     command: |
-      echo $GPG_SECRET_KEY | base64 --decode --ignore-garbage > ~/.sbt/gpg/secring.asc
-      gpg --batch --allow-secret-key-import --import ~/.sbt/gpg/secring.asc
+      echo $GPG_SECRET_KEY | base64 --decode --ignore-garbage > ~/root/.gnupg/secring.asc
+      gpg --batch --allow-secret-key-import --import ~/root/.gnupg/secring.asc
 
 version: 2
 jobs:
