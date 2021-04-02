@@ -23,6 +23,14 @@ restore-maven-cache: &restore-maven-cache
   restore_cache:
     key: aws-maven-{{ checksum "pom.xml" }}
 
+setup-gpg: &setup-gpg
+  run:
+    name: "Configuring gpg"
+    command: |
+      mkdir ~/.sbt/gpg
+      echo $GPG_SECRET_KEY | base64 --decode --ignore-garbage > ~/.sbt/gpg/secring.asc
+      gpg --batch --allow-secret-key-import --import ~/.sbt/gpg/secring.asc
+
 version: 2
 jobs:
   build:
@@ -46,9 +54,7 @@ jobs:
           username: $QUAY_DOCKER_LOGIN
           password: $QUAY_DOCKER_LOGIN_PASSWORD
     steps:
-      - run:
-          name: Import GPG key
-          command: gpg --no-tty --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --output secrets.env --decrypt secrets.env.gpg
+      - *setup-gpg
       - checkout
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
