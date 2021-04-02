@@ -46,6 +46,9 @@ jobs:
           username: $QUAY_DOCKER_LOGIN
           password: $QUAY_DOCKER_LOGIN_PASSWORD
     steps:
+      - run:
+          name: Import GPG key
+          command: echo -e "$GPG_SECRET_KEY" | gpg --import
       - checkout
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
