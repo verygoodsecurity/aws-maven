@@ -28,7 +28,6 @@ setup-gpg: &setup-gpg
     name: "Configuring gpg"
     command: |
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
-      export GPG_TTY=$(tty)
 
 version: 2
 jobs:
