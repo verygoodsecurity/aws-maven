@@ -36,6 +36,7 @@ jobs:
     <<: *job-defaults
     <<: *machine-setup
     steps:
+      - *setup-gpg
       - checkout
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
