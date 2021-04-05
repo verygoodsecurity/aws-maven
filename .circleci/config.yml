@@ -60,6 +60,7 @@ jobs:
     <<: *job-defaults
     <<: *machine-setup
     steps:
+      - *setup-gpg
       - *attach_workspace
       - <<: *restore-maven-cache
       - run: mvn verify
