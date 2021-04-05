@@ -60,7 +60,6 @@ jobs:
 
   test:
     <<: *job-defaults
-    <<: *machine-setup
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
