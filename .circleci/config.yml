@@ -27,8 +27,7 @@ setup-gpg: &setup-gpg
   run:
     name: "Configuring gpg"
     command: |
-      echo $GPG_SECRET_KEY  > PRIVATE_GPG_KEY.asc
-      gpg --import PRIVATE_GPG_KEY.asc
+      echo -e "$GPG_SECRET_KEY" | gpg --import
 
 version: 2
 jobs:
