@@ -10,7 +10,6 @@ job-defaults: &job-defaults
 machine-setup: &machine-setup
   machine:
     enabled: true
-    image: circleci/classic:201710-02
 
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
@@ -33,7 +32,9 @@ version: 2
 jobs:
   build:
     <<: *job-defaults
-    <<: *machine-setup
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
     steps:
       - *setup-gpg
       - checkout
@@ -60,6 +61,9 @@ jobs:
   test:
     <<: *job-defaults
     <<: *machine-setup
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
     steps:
       - *setup-gpg
       - *attach_workspace
