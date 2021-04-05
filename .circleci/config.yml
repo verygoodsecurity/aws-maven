@@ -10,7 +10,7 @@ job-defaults: &job-defaults
 machine-setup: &machine-setup
   machine:
     enabled: true
-    image: classic:201808-01
+    image: circleci/classic:201710-02
 
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
