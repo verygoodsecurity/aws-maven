@@ -14,25 +14,9 @@ mvn deploy
 
 ## Usage
 To publish Maven artifacts to S3 a build extension must be defined in a project's `pom.xml`.  The latest version of the wagon can 
-be found from on Bintray public mvn repository https://dl.bintray.com/vg/vgs-misc
+be found on Maven Central public repository https://search.maven.org/
 
 To get the dependency add to your pom:
-
-
-```xml
-<pluginRepositories>
-    <pluginRepository>
-        <id>bintray-vgs</id>
-        <name>bintray-vgs</name>
-        <url>https://dl.bintray.com/vg/vgs-oss</url>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </pluginRepository>
-</pluginRepositories>
-```
-
-And plugin dependency:
 
 ```xml
 <project>
@@ -44,7 +28,7 @@ And plugin dependency:
       <extension>
       <groupId>io.vgs.tools</groupId>
       <artifactId>aws-maven</artifactId>
-      <version>1.4.4</version>
+      <version>1.4.5</version>
       </extension>
       ...
     </extensions>

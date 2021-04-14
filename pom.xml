@@ -5,7 +5,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.vgs.tools</groupId>
+  <groupId>com.verygoodsecurity</groupId>
   <artifactId>aws-maven</artifactId>
   <packaging>jar</packaging>
   <version>1.4.5</version>
@@ -14,14 +14,18 @@
 
   <properties>
     <amazonaws.version>1.11.271</amazonaws.version>
+    <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+    <jaxb.version>2.4.0-b180725.0427</jaxb.version>
     <junit.version>4.11</junit.version>
     <logback.version>1.1.1</logback.version>
+    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <mockito.version>1.9.5</mockito.version>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <slf4j.version>1.7.6</slf4j.version>
     <wagon.version>2.6</wagon.version>
-    <jaxb.version>2.4.0-b180725.0427</jaxb.version>
-
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencies>
@@ -156,6 +160,61 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>${nexus-staging-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>${maven-gpg-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+            <configuration>
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.16</version>
         <configuration>
@@ -184,20 +243,39 @@
 
   <scm>
     <connection>scm:git:https://github.com/verygoodsecurity/aws-maven.git</connection>
+    <developerConnection>scm:git:https://github.com/verygoodsecurity/aws-maven.git</developerConnection>
     <url>https://github.com/verygoodsecurity/aws-maven</url>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
     <repository>
-      <id>bintray-repo-aws-maven</id>
-      <name>vgs-aws-maven</name>
-      <url>https://api.bintray.com/maven/vg/vgs-oss/aws-maven/</url>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
+
+  <developers>
+    <developer>
+      <name>Marshall Jones</name>
+      <email>marshall@vgs.io</email>
+      <organization>VGS</organization>
+      <organizationUrl>https://verygoodsecurity.com/</organizationUrl>
+    </developer>
+    <developer>
+      <name>Yuriy Shafranyuk</name>
+      <email>yuriy.shafranyuk@vgs.io</email>
+      <organization>VGS</organization>
+      <organizationUrl>https://verygoodsecurity.com/</organizationUrl>
+    </developer>
+  </developers>
 
   <issueManagement>
     <system>Github</system>
     <url>https://github.com/Yleisradio/aws-maven/issues</url>
   </issueManagement>
-
 </project>
