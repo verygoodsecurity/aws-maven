@@ -16,21 +16,19 @@
 
 package io.vgs.tools.aws.maven;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.io.IOException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.events.TransferEvent;
 import org.apache.maven.wagon.events.TransferListener;
 import org.apache.maven.wagon.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static io.vgs.tools.aws.maven.matchers.Matchers.eq;
 
 public final class StandardTransferListenerSupportTest {
 
@@ -78,7 +76,7 @@ public final class StandardTransferListenerSupportTest {
         this.transferListenerSupport.fireTransferProgress(this.resource, REQUEST_TYPE, buffer, length);
         verify(this.transferListener).transferProgress(
                 io.vgs.tools.aws.maven.matchers.Matchers.eq(new TransferEvent(this.wagon, this.resource, TransferEvent.TRANSFER_PROGRESS, REQUEST_TYPE)),
-                Matchers.eq(buffer), Matchers.eq(length));
+                eq(buffer), eq(length));
     }
 
     @Test
