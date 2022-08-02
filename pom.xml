@@ -16,7 +16,7 @@
     <amazonaws.version>1.11.271</amazonaws.version>
     <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
     <jaxb.version>2.4.0-b180725.0427</jaxb.version>
-    <junit.version>4.11</junit.version>
+    <junit.version>4.13.1</junit.version>
     <logback.version>1.1.1</logback.version>
     <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
