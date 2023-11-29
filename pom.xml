@@ -17,7 +17,7 @@
     <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
     <jaxb.version>2.4.0-b180725.0427</jaxb.version>
     <junit.version>4.13.2</junit.version>
-    <logback.version>1.2.11</logback.version>
+    <logback.version>1.3.12</logback.version>
     <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
