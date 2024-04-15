@@ -11,6 +11,20 @@ machine-setup: &machine-setup
   machine:
     enabled: true
 
+setup-env: &setup-env
+  run:
+    name: Setup ENV
+    command: |
+      ./.circleci/setup-aws-config.sh
+      ./.circleci/setup-maven-m2-mirrors.sh
+
+docker-login: &docker-login
+  - run:
+      name: Docker Login
+      command: |
+        unset AWS_ACCESS_KEY_ID; unset AWS_SECRET_ACCESS_KEY;
+        ./.circleci/docker-login.sh
+
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
   save_cache:
@@ -38,6 +52,8 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
+      - <<: *setup-env
+      - <<: *docker-login
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
       - <<: *save-maven-cache
@@ -53,6 +69,8 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
+      - <<: *setup-env
+      - <<: *docker-login
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
   test:
@@ -64,6 +82,8 @@ jobs:
       - *setup-gpg
       - *attach_workspace
       - <<: *restore-maven-cache
+      - <<: *setup-env
+      - <<: *docker-login
       - run: mvn verify
 
 workflows:
