@@ -72,7 +72,10 @@ workflows:
     jobs:
       - build-jdk-11:
           context: artifact-publisher
-
+          filters:
+            branches:
+              only:
+                - '*'
       - build:
           context: artifact-publisher
           filters:
