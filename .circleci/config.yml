@@ -1,3 +1,4 @@
+version: 2.1
 job-defaults: &job-defaults
   working_directory: &working_directory
     ~/aws-maven
@@ -7,8 +8,7 @@ job-defaults: &job-defaults
 
 machine-setup: &machine-setup
   machine:
-    docker_layer_caching: false
-    image: ubuntu-2204:2023.10.1
+    enabled: true
 
 setup-env: &setup-env
   run:
@@ -41,9 +41,9 @@ setup-gpg: &setup-gpg
     command: |
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
 
-version: 2
 jobs:
   build:
+    <<: *machine-setup
     <<: *job-defaults
     <<: *setup-env
     <<: *docker-login
@@ -62,6 +62,7 @@ jobs:
             - "*"
 
   build-jdk-11:
+    <<: *machine-setup
     <<: *job-defaults
     <<: *setup-env
     <<: *docker-login
@@ -73,6 +74,7 @@ jobs:
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
   test:
+    <<: *machine-setup
     <<: *job-defaults
     <<: *setup-env
     <<: *docker-login
@@ -86,7 +88,6 @@ jobs:
       - run: mvn verify
 
 workflows:
-  version: 2
   build_and_test:
     jobs:
       - build-jdk-11:
