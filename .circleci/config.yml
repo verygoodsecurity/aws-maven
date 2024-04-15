@@ -3,11 +3,6 @@ version: 2.1
 job-defaults: &job-defaults
   working_directory: &working_directory
                        ~/aws-maven
-  environment:
-    TEST_RESULTS: /tmp/test-results
-    AWS_PROFILE: dev/vault
-    AWS_DEFAULT_REGION: us-west-2
-    AWS_REGION: us-west-2
 attach-workspace: &attach-workspace
   attach_workspace:
     at: *working_directory
