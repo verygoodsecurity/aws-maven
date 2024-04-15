@@ -49,10 +49,7 @@ jobs:
   build-jdk-11:
     <<: *job-defaults
     docker:
-      - image: quay.io/verygoodsecurity/java11:production-0.0.42
-        auth:
-          username: $QUAY_DOCKER_LOGIN
-          password: $QUAY_DOCKER_LOGIN_PASSWORD
+      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     steps:
       - *setup-gpg
       - checkout
