@@ -71,7 +71,9 @@ workflows:
   build_and_test:
     jobs:
       - build-jdk-11:
-          context: artifact-publisher
+          context:
+            - artifact-publisher
+            - circleci
           filters:
             branches:
               only:
