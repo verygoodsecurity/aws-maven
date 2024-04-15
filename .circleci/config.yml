@@ -92,15 +92,21 @@ workflows:
   build_and_test:
     jobs:
       - build-jdk-11:
-          context: artifact-publisher
+          context:
+            - circleci
+            - artifact-publisher
 
       - build:
-          context: artifact-publisher
+          context:
+            - circleci
+            - artifact-publisher
           filters:
             tags:
               only: /.*/
 
       - test:
-          context: artifact-publisher
+          context:
+            - circleci
+            - artifact-publisher
           requires:
             - build
