@@ -1,14 +1,11 @@
 version: 2.1
 job-defaults: &job-defaults
   working_directory: &working_directory
-    ~/aws-maven
-  attach_workspace: &attach_workspace
-      attach_workspace:
-        at: *working_directory
+                       ~/aws-maven
 
-machine-setup: &machine-setup
-  machine:
-    enabled: true
+attach-workspace: &attach-workspace
+  attach_workspace:
+    at: *working_directory
 
 setup-env: &setup-env
   run:
@@ -43,13 +40,13 @@ setup-gpg: &setup-gpg
 
 jobs:
   build:
-    <<: *machine-setup
     <<: *job-defaults
     <<: *setup-env
     <<: *docker-login
     docker:
       # specify the version you desire here
       - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
+    working_directory: *working_directory
     steps:
       - *setup-gpg
       - checkout
@@ -62,28 +59,28 @@ jobs:
             - "*"
 
   build-jdk-11:
-    <<: *machine-setup
     <<: *job-defaults
     <<: *setup-env
     <<: *docker-login
     docker:
       - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
+    working_directory: *working_directory
     steps:
       - *setup-gpg
       - checkout
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
   test:
-    <<: *machine-setup
     <<: *job-defaults
     <<: *setup-env
     <<: *docker-login
     docker:
       # specify the version you desire here
       - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
+    working_directory: *working_directory
     steps:
       - *setup-gpg
-      - *attach_workspace
+      - *attach-workspace
       - <<: *restore-maven-cache
       - run: mvn verify
 
