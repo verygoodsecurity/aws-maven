@@ -1,3 +1,5 @@
+version: 2.1
+
 job-defaults: &job-defaults
   working_directory: &working_directory
     ~/aws-maven
@@ -28,7 +30,6 @@ setup-gpg: &setup-gpg
     command: |
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
 
-version: 2
 jobs:
   build:
     <<: *job-defaults
@@ -67,7 +68,6 @@ jobs:
       - run: mvn verify
 
 workflows:
-  version: 2
   build_and_test:
     jobs:
       - build-jdk-11:
