@@ -4,12 +4,11 @@ job-defaults: &job-defaults
   attach_workspace: &attach_workspace
       attach_workspace:
         at: *working_directory
-  test_results_directory: &test_results_directory
-    /tmp/test-results
 
 machine-setup: &machine-setup
   machine:
-    enabled: true
+    docker_layer_caching: false
+    image: ubuntu-2204:2023.10.1
 
 setup-env: &setup-env
   run:
@@ -46,14 +45,14 @@ version: 2
 jobs:
   build:
     <<: *job-defaults
+    <<: *setup-env
+    <<: *docker-login
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     steps:
       - *setup-gpg
       - checkout
-      - <<: *setup-env
-      - <<: *docker-login
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
       - <<: *save-maven-cache
@@ -64,26 +63,26 @@ jobs:
 
   build-jdk-11:
     <<: *job-defaults
+    <<: *setup-env
+    <<: *docker-login
     docker:
       - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     steps:
       - *setup-gpg
       - checkout
-      - <<: *setup-env
-      - <<: *docker-login
       - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
 
   test:
     <<: *job-defaults
+    <<: *setup-env
+    <<: *docker-login
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     steps:
       - *setup-gpg
       - *attach_workspace
       - <<: *restore-maven-cache
-      - <<: *setup-env
-      - <<: *docker-login
       - run: mvn verify
 
 workflows:
