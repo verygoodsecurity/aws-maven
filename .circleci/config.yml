@@ -3,6 +3,12 @@ version: 2.1
 job-defaults: &job-defaults
   working_directory: &working_directory
                        ~/aws-maven
+  environment:
+    TEST_RESULTS: /tmp/test-results
+    AWS_PROFILE: dev/vault
+    AWS_DEFAULT_REGION: us-west-2
+    AWS_REGION: us-west-2
+    
 attach-workspace: &attach-workspace
   attach_workspace:
     at: *working_directory
@@ -37,10 +43,14 @@ setup-gpg: &setup-gpg
     name: "Configuring gpg"
     command: |
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
-
+machine-setup: &machine-setup
+  machine:
+    docker_layer_caching: false
+    image: ubuntu-2204:2023.10.1
 jobs:
   build:
     <<: *job-defaults
+    <<: *machine-setup
     docker:
       # specify the version you desire here
       - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
@@ -59,6 +69,7 @@ jobs:
 
   build-jdk-11:
     <<: *job-defaults
+    <<: *machine-setup
     docker:
       - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     working_directory: *working_directory
@@ -71,6 +82,7 @@ jobs:
 
   test:
     <<: *job-defaults
+    <<: *machine-setup
     docker:
       # specify the version you desire here
       - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
