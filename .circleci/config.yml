@@ -51,9 +51,6 @@ jobs:
   build:
     <<: *job-defaults
     <<: *machine-setup
-    docker:
-      # specify the version you desire here
-      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     working_directory: *working_directory
     steps:
       - *setup-gpg
@@ -70,8 +67,6 @@ jobs:
   build-jdk-11:
     <<: *job-defaults
     <<: *machine-setup
-    docker:
-      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     working_directory: *working_directory
     steps:
       - *setup-gpg
@@ -83,9 +78,6 @@ jobs:
   test:
     <<: *job-defaults
     <<: *machine-setup
-    docker:
-      # specify the version you desire here
-      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     working_directory: *working_directory
     steps:
       - *setup-gpg
