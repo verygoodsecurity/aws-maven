@@ -57,7 +57,7 @@ jobs:
       - checkout
       - <<: *setup-env
       - <<: *docker-login
-      - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
+      - run: docker-compose run build
       - <<: *save-maven-cache
       - persist_to_workspace:
           root: ~/aws-maven
@@ -73,7 +73,7 @@ jobs:
       - checkout
       - <<: *setup-env
       - <<: *docker-login
-      - run: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
+      - run: docker-compose run build-jdk-11
 
   test:
     <<: *job-defaults
@@ -85,7 +85,7 @@ jobs:
       - <<: *setup-env
       - <<: *docker-login
       - <<: *restore-maven-cache
-      - run: mvn verify
+      - run: docker-compose run test
 
 workflows:
   build_and_test:
