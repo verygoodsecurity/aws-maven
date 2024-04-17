@@ -2,7 +2,7 @@ services:
   build:
     image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     command: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
-    working_dir: ~/aws-maven
+    working_dir: /aws-maven
     environment:
       AWS_PROFILE: dev/vault
       AWS_DEFAULT_REGION: us-west-2
@@ -15,7 +15,7 @@ services:
   build-jdk-11:
     image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     command: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
-    working_dir: ~/aws-maven
+    working_dir: /aws-maven
     environment:
       AWS_PROFILE: dev/vault
       AWS_DEFAULT_REGION: us-west-2
@@ -28,7 +28,7 @@ services:
   test:
     image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     command: mvn verify
-    working_dir: ~/aws-maven
+    working_dir: /aws-maven
     environment:
       AWS_PROFILE: dev/vault
       AWS_DEFAULT_REGION: us-west-2
