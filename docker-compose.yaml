@@ -1,6 +1,8 @@
+x-common:
+  image: &maven-jdk-image maven:3.9-eclipse-temurin-17
 services:
   build:
-    image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
+    image: *maven-jdk-image
     command: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
     working_dir: /aws-maven
     environment:
@@ -13,7 +15,7 @@ services:
       - ~/.aws/:/root/.aws/
 
   build-jdk-11:
-    image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
+    image: *maven-jdk-image
     command: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
     working_dir: /aws-maven
     environment:
@@ -26,7 +28,7 @@ services:
       - ~/.aws/:/root/.aws/
 
   test:
-    image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
+    image: *maven-jdk-image
     command: mvn verify
     working_dir: /aws-maven
     environment:
