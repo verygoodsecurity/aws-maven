@@ -42,7 +42,7 @@ setup-gpg: &setup-gpg
   run:
     name: "Configuring gpg"
     command: |
-      echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
+      echo -e "$GPG_PASSPHRASE" | gpg --import --no-tty --batch --yes
 machine-setup: &machine-setup
   machine:
     docker_layer_caching: false
