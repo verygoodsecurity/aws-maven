@@ -10,6 +10,7 @@ services:
       AWS_DEFAULT_REGION: us-west-2
       AWS_REGION: us-west-2
       GPG_SECRET_KEY: ${GPG_SECRET_KEY}
+      GPG_PASSPHRASE: ${GPG_PASSPHRASE}
     volumes:
       - .:/aws-maven/
       - ~/.m2/:/root/.m2/
@@ -24,6 +25,7 @@ services:
       AWS_DEFAULT_REGION: us-west-2
       AWS_REGION: us-west-2
       GPG_SECRET_KEY: ${GPG_SECRET_KEY}
+      GPG_PASSPHRASE: ${GPG_PASSPHRASE}
     volumes:
       - .:/aws-maven/
       - ~/.m2/:/root/.m2/
@@ -38,6 +40,7 @@ services:
       AWS_DEFAULT_REGION: us-west-2
       AWS_REGION: us-west-2
       GPG_SECRET_KEY: ${GPG_SECRET_KEY}
+      GPG_PASSPHRASE: ${GPG_PASSPHRASE}
     volumes:
       - .:/aws-maven/
       - ~/.m2/:/root/.m2/
