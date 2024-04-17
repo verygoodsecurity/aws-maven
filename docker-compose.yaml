@@ -6,26 +6,12 @@ services:
     command: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
     working_dir: /aws-maven
     environment:
-      AWS_PROFILE: dev/vault
+      AWS_DEFAULT_PROFILE: dev/vault
       AWS_DEFAULT_REGION: us-west-2
-      AWS_REGION: us-west-2
-      GPG_SECRET_KEY: ${GPG_SECRET_KEY}
-      GPG_PASSPHRASE: ${GPG_PASSPHRASE}
-    volumes:
-      - .:/aws-maven/
-      - ~/.m2/:/root/.m2/
-      - ~/.aws/:/root/.aws/
-
-  build-jdk-11:
-    image: *maven-jdk-image
-    command: mvn clean dependency:go-offline package install -U -Dmaven.test.skip.exec -T 2.0C -B
-    working_dir: /aws-maven
-    environment:
       AWS_PROFILE: dev/vault
-      AWS_DEFAULT_REGION: us-west-2
       AWS_REGION: us-west-2
-      GPG_SECRET_KEY: ${GPG_SECRET_KEY}
       GPG_PASSPHRASE: ${GPG_PASSPHRASE}
+      GPG_SECRET_KEY: ${GPG_SECRET_KEY}
     volumes:
       - .:/aws-maven/
       - ~/.m2/:/root/.m2/
@@ -36,11 +22,12 @@ services:
     command: mvn verify
     working_dir: /aws-maven
     environment:
-      AWS_PROFILE: dev/vault
+      AWS_DEFAULT_PROFILE: dev/vault
       AWS_DEFAULT_REGION: us-west-2
+      AWS_PROFILE: dev/vault
       AWS_REGION: us-west-2
-      GPG_SECRET_KEY: ${GPG_SECRET_KEY}
       GPG_PASSPHRASE: ${GPG_PASSPHRASE}
+      GPG_SECRET_KEY: ${GPG_SECRET_KEY}
     volumes:
       - .:/aws-maven/
       - ~/.m2/:/root/.m2/

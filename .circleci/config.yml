@@ -42,6 +42,7 @@ setup-gpg: &setup-gpg
   run:
     name: "Configuring gpg"
     command: |
+      set -x
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
 machine-setup: &machine-setup
   machine:
@@ -65,18 +66,6 @@ jobs:
           paths:
             - "*"
 
-  build-jdk-11:
-    <<: *job-defaults
-    <<: *machine-setup
-    working_directory: *working_directory
-    steps:
-      - *setup-gpg
-      - checkout
-      - *attach-workspace
-      - <<: *setup-env
-      - <<: *docker-login
-      - run: docker-compose run build-jdk-11
-
   test:
     <<: *job-defaults
     <<: *machine-setup
@@ -92,11 +81,6 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - build-jdk-11:
-          context:
-            - circleci
-            - artifact-publisher
-
       - build:
           context:
             - circleci
