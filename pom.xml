@@ -14,7 +14,6 @@
 
   <properties>
     <amazonaws.version>1.12.558</amazonaws.version>
-    <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
     <jaxb.version>2.4.0-b180725.0427</jaxb.version>
     <junit.version>4.13.2</junit.version>
     <logback.version>1.2.11</logback.version>
