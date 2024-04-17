@@ -55,12 +55,13 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
+      - *attach-workspace
       - <<: *setup-env
       - <<: *docker-login
       - run: docker-compose run build
       - <<: *save-maven-cache
       - persist_to_workspace:
-          root: ~/aws-maven
+          root: *working_directory
           paths:
             - "*"
 
@@ -71,6 +72,7 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
+      - *attach-workspace
       - <<: *setup-env
       - <<: *docker-login
       - run: docker-compose run build-jdk-11
