@@ -58,6 +58,7 @@ jobs:
       - *attach-workspace
       - <<: *setup-env
       - <<: *docker-login
+      - run: gpg --version
       - run: docker-compose run build
       - <<: *save-maven-cache
       - persist_to_workspace:
