@@ -28,6 +28,10 @@ cat << EOF > ~/.m2/settings.xml
             <username>$GITHUB_USERNAME</username>
             <password>$GITHUB_TOKEN</password>
         </server>
+        <server>
+            <id>gpg.passphrase</id>
+            <passphrase>$GPG_PASSPHRASE</passphrase>
+        </server>
     </servers>
 </settings>
 EOF
