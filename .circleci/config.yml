@@ -83,6 +83,7 @@ workflows:
       - build:
           context:
             - circleci
+            - github
             - artifact-publisher
           filters:
             tags:
@@ -91,6 +92,7 @@ workflows:
       - test:
           context:
             - circleci
+            - github
             - artifact-publisher
           requires:
             - build
