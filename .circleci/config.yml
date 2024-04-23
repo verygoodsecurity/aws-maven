@@ -33,7 +33,7 @@ jobs:
   build-jdk-11:
     <<: *job-defaults
     docker:
-      - image: circleci/openjdk:11-jdk
+      - image: cimg/openjdk:11.0
     steps:
       - *setup-gpg
       - checkout
@@ -47,7 +47,7 @@ jobs:
   test:
     <<: *job-defaults
     docker:
-      - image: circleci/openjdk:11-jdk
+      - image: cimg/openjdk:11.0
     steps:
       - *setup-gpg
       - *attach-workspace
