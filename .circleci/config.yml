@@ -68,10 +68,9 @@ jobs:
     <<: *job-defaults
     docker:
       - image: circleci/openjdk:11-jdk
-    working_directory: *working_directory
     steps:
       - *setup-gpg
-      - checkout
+      - *attach-workspace
       - <<: *restore-maven-cache
       - run: mvn verify
 
