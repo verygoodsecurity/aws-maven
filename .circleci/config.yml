@@ -6,6 +6,11 @@ job-defaults: &job-defaults
 attach-workspace: &attach-workspace
   attach_workspace:
     at: *working_directory
+
+machine-setup: &machine-setup
+  machine:
+    docker_layer_caching: false
+    image: ubuntu-2204:2023.10.1
     
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
@@ -24,11 +29,6 @@ setup-gpg: &setup-gpg
     command: |
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
 
-machine-setup: &machine-setup
-  machine:
-    docker_layer_caching: false
-    image: ubuntu-2204:2023.10.1
-
 jobs:
   build:
     <<: *job-defaults
@@ -38,6 +38,7 @@ jobs:
       - *setup-gpg
       - checkout
       - *attach-workspace
+      - run: ls
       # Pull the Maven image
       - run:
           name: Pull Maven image
@@ -59,6 +60,7 @@ jobs:
     working_directory: *working_directory
     steps:
       - *setup-gpg
+      - checkout
       - *attach-workspace
       - <<: *restore-maven-cache
       # Pull the Maven image (assuming same version as build)
