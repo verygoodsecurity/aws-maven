@@ -193,6 +193,7 @@
               <goal>sign</goal>
             </goals>
             <configuration>
+              <passphrase>${env.GPG_PASSPHRASE}</passphrase>
               <gpgArguments>
                 <arg>--pinentry-mode</arg>
                 <arg>loopback</arg>

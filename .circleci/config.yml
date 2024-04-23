@@ -5,10 +5,27 @@ job-defaults: &job-defaults
                        ~/aws-maven
   environment:
     TEST_RESULTS: /tmp/test-results
-
+    AWS_PROFILE: dev/vault
+    AWS_DEFAULT_REGION: us-west-2
+    AWS_REGION: us-west-2
+    
 attach-workspace: &attach-workspace
   attach_workspace:
     at: *working_directory
+
+setup-env: &setup-env
+  run:
+    name: Setup ENV
+    command: |
+      ./.circleci/setup-aws-config.sh
+      ./.circleci/setup-maven-m2-mirrors.sh
+
+docker-login: &docker-login
+  - run:
+      name: Docker Login
+      command: |
+        unset AWS_ACCESS_KEY_ID; unset AWS_SECRET_ACCESS_KEY;
+        ./.circleci/docker-login.sh
 
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
@@ -38,6 +55,12 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
+      - *attach-workspace
+      - <<: *setup-env
+      - <<: *docker-login
+      - run: gpg --version
+      - run: gpg --list-secret-keys
+      - run: ls -ld ~/.gnupg
       - run: docker-compose run build
       - <<: *save-maven-cache
       - persist_to_workspace:
@@ -52,6 +75,8 @@ jobs:
     steps:
       - *setup-gpg
       - *attach-workspace
+      - <<: *setup-env
+      - <<: *docker-login
       - <<: *restore-maven-cache
       - run: docker-compose run test
 
@@ -60,6 +85,8 @@ workflows:
     jobs:
       - build:
           context:
+            - circleci
+            - github
             - artifact-publisher
           filters:
             tags:
@@ -67,6 +94,8 @@ workflows:
 
       - test:
           context:
+            - circleci
+            - github
             - artifact-publisher
           requires:
             - build

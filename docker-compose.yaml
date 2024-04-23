@@ -6,6 +6,10 @@ services:
     command: mvn clean dependency:go-offline package install -U -DskipTests -Dgpg.skip=true -T 2.0C -B
     working_dir: /aws-maven
     environment:
+      AWS_DEFAULT_PROFILE: dev/vault
+      AWS_DEFAULT_REGION: us-west-2
+      AWS_PROFILE: dev/vault
+      AWS_REGION: us-west-2
       GPG_PASSPHRASE: ${GPG_PASSPHRASE}
       GPG_SECRET_KEY: ${GPG_SECRET_KEY}
     volumes:
@@ -18,6 +22,10 @@ services:
     command: mvn verify -Dgpg.skip=true
     working_dir: /aws-maven
     environment:
+      AWS_DEFAULT_PROFILE: dev/vault
+      AWS_DEFAULT_REGION: us-west-2
+      AWS_PROFILE: dev/vault
+      AWS_REGION: us-west-2
       GPG_PASSPHRASE: ${GPG_PASSPHRASE}
       GPG_SECRET_KEY: ${GPG_SECRET_KEY}
     volumes:
