@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Run Maven commands
           command: |
-            docker run -w /home/circleci/aws-maven maven:3.9-eclipse-temurin-17 sh -c "ls && echo \$PWD"
+            docker run -w /home/circleci/aws-maven -v $PWD:/home/circleci/aws-maven maven:3.9-eclipse-temurin-17 sh -c "ls && echo \$PWD"
       #      - run:
 #          name: Run Maven commands
 #          command: |
@@ -72,7 +72,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker run --rm -v $PWD:/root/ maven:3.9-eclipse-temurin-17 mvn verify
+            docker run --rm -w /home/circleci/aws-maven -v $PWD:/home/circleci/aws-maven maven:3.9-eclipse-temurin-17 mvn verify
 
 workflows:
   build_and_test:
