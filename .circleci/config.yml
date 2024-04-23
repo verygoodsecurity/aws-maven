@@ -57,7 +57,7 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
-      - run: mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
+      - run: mvn clean dependency:go-offline package install -U -DskipTests -Dmaven.javadoc.skip=true -T 2.0C -B
       - <<: *save-maven-cache
       - persist_to_workspace:
           root: *working_directory
