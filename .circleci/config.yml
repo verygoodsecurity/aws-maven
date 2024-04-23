@@ -47,9 +47,13 @@ jobs:
       - run:
           name: Run Maven commands
           command: |
-            echo $PWD
-            ls
-            docker run -v $PWD:/root/ maven:3.9-eclipse-temurin-17 mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
+            docker run maven:3.9-eclipse-temurin-17 echo $PWD
+#      - run:
+#          name: Run Maven commands
+#          command: |
+#            echo $PWD
+#            ls
+#            docker run -v $PWD:/root/ maven:3.9-eclipse-temurin-17 mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
       - <<: *save-maven-cache
       - persist_to_workspace:
           root: *working_directory
