@@ -3,7 +3,7 @@ x-common:
 services:
   build:
     image: *maven-jdk-image
-    command: mvn clean dependency:go-offline package install -U -DskipTests
+    command: mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
     working_dir: /aws-maven
     environment:
       AWS_DEFAULT_PROFILE: dev/vault
@@ -19,7 +19,7 @@ services:
 
   test:
     image: *maven-jdk-image
-    command: mvn clean verify
+    command: mvn verify
     working_dir: /aws-maven
     environment:
       AWS_DEFAULT_PROFILE: dev/vault
