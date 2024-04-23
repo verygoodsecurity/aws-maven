@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Run Maven commands
           command: |
-            docker run maven:3.9-eclipse-temurin-17 sh -c "ls && echo \$PWD"
+            docker run maven:3.9-eclipse-temurin-17 sh -c "cd /home/circleci/aws-maven && echo \$PWD"
       #      - run:
 #          name: Run Maven commands
 #          command: |
