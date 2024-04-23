@@ -72,7 +72,7 @@ jobs:
       - *setup-gpg
       - *attach-workspace
       - <<: *restore-maven-cache
-      - run: mvn verify
+      - run: mvn verify -Dmaven.javadoc.skip=true
 
 workflows:
   build_and_test:
