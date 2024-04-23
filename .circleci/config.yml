@@ -7,11 +7,6 @@ attach-workspace: &attach-workspace
   attach_workspace:
     at: *working_directory
 
-machine-setup: &machine-setup
-  machine:
-    docker_layer_caching: false
-    image: ubuntu-2204:2023.10.1
-    
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
   save_cache:
@@ -30,6 +25,20 @@ setup-gpg: &setup-gpg
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
 
 jobs:
+  build:
+    <<: *job-defaults
+    docker:
+      - image: cimg/openjdk:8.0
+    steps:
+      - *setup-gpg
+      - checkout
+      - run: mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
+      - <<: *save-maven-cache
+      - persist_to_workspace:
+          root: *working_directory
+          paths:
+            - "*"
+
   build-jdk-11:
     <<: *job-defaults
     docker:
@@ -47,7 +56,7 @@ jobs:
   test:
     <<: *job-defaults
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:8.0
     steps:
       - *setup-gpg
       - *attach-workspace
@@ -59,6 +68,9 @@ workflows:
     jobs:
       - build-jdk-11:
           context: artifact-publisher
+
+      - build:
+          context: artifact-publisher
           filters:
             tags:
               only: /.*/
@@ -66,4 +78,4 @@ workflows:
       - test:
           context: artifact-publisher
           requires:
-            - build-jdk-11
+            - build
