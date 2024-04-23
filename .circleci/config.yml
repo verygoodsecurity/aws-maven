@@ -42,13 +42,8 @@ jobs:
       - run:
           name: Run Maven commands
           command: |
-            docker run -w /home/circleci/aws-maven -v $PWD:/home/circleci/aws-maven maven:3.9-eclipse-temurin-17 sh -c "ls && echo \$PWD"
-      #      - run:
-#          name: Run Maven commands
-#          command: |
-#            echo $PWD
-#            ls
-#            docker run -v $PWD:/root/ maven:3.9-eclipse-temurin-17 mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
+            docker run -w /home/circleci/aws-maven -v $PWD:/home/circleci/aws-maven maven:3.9-eclipse-temurin-17 gpg --version
+            docker run -w /home/circleci/aws-maven -v $PWD:/home/circleci/aws-maven maven:3.9-eclipse-temurin-17 mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
       - <<: *save-maven-cache
       - persist_to_workspace:
           root: *working_directory
