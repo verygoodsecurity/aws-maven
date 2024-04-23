@@ -3,9 +3,10 @@ version: 2.1
 job-defaults: &job-defaults
   working_directory: &working_directory
                        ~/aws-maven
-  attach-workspace: &attach-workspace
-    attach_workspace:
-      at: *working_directory
+
+attach-workspace: &attach-workspace
+  attach_workspace:
+    at: *working_directory
     
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
@@ -37,7 +38,6 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
-      - *attach-workspace
       # Pull the Maven image
       - run:
           name: Pull Maven image
