@@ -60,6 +60,7 @@ jobs:
       - <<: *docker-login
       - run: gpg --version
       - run: gpg --list-secret-keys
+      - run: ls -ld ~/.gnupg
       - run: docker-compose run build
       - <<: *save-maven-cache
       - persist_to_workspace:
