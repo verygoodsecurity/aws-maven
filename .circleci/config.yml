@@ -39,15 +39,12 @@ jobs:
       - checkout
       - *attach-workspace
       - run: ls
-      # Pull the Maven image
-      - run:
-          name: Pull Maven image
-          command: docker pull maven:3.9-eclipse-temurin-17
-      # Run Maven commands inside the Maven container
       - run:
           name: Run Maven commands
           command: |
-            docker run maven:3.9-eclipse-temurin-17 cd /home/circleci/aws-maven && ls
+            docker run --name my_maven_container maven:3.9-eclipse-temurin-17
+            docker exec my_maven_container ls
+            docker exec my_maven_container $PWD
       #      - run:
 #          name: Run Maven commands
 #          command: |
