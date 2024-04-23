@@ -38,6 +38,7 @@ jobs:
     steps:
       - *setup-gpg
       - checkout
+      - *attach-workspace
       # Pull the Maven image
       - run:
           name: Pull Maven image
