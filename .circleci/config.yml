@@ -46,12 +46,14 @@ setup-gpg: &setup-gpg
 machine-setup: &machine-setup
   machine:
     docker_layer_caching: false
-    image: ubuntu-2204:2023.10.1
+    image: maven:3.9-eclipse-temurin-17
 jobs:
   build:
     <<: *job-defaults
     <<: *machine-setup
     working_directory: *working_directory
+    docker:
+      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     steps:
       - *setup-gpg
       - checkout
@@ -61,7 +63,7 @@ jobs:
       - run: gpg --version
       - run: gpg --list-secret-keys
       - run: ls -ld ~/.gnupg
-      - run: docker-compose run build
+      - run: mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
       - <<: *save-maven-cache
       - persist_to_workspace:
           root: *working_directory
@@ -72,13 +74,15 @@ jobs:
     <<: *job-defaults
     <<: *machine-setup
     working_directory: *working_directory
+    docker:
+      - image: 190066226418.dkr.ecr.us-east-1.amazonaws.com/base/jvm11:20240413-f5906f03
     steps:
       - *setup-gpg
       - *attach-workspace
       - <<: *setup-env
       - <<: *docker-login
       - <<: *restore-maven-cache
-      - run: docker-compose run test
+      - run: mvn verify
 
 workflows:
   build_and_test:
