@@ -3,30 +3,10 @@ version: 2.1
 job-defaults: &job-defaults
   working_directory: &working_directory
                        ~/aws-maven
-  environment:
-    TEST_RESULTS: /tmp/test-results
-    AWS_PROFILE: dev/vault
-    AWS_DEFAULT_REGION: us-west-2
-    AWS_REGION: us-west-2
+  attach-workspace: &attach-workspace
+    attach_workspace:
+      at: *working_directory
     
-attach-workspace: &attach-workspace
-  attach_workspace:
-    at: *working_directory
-
-setup-env: &setup-env
-  run:
-    name: Setup ENV
-    command: |
-      ./.circleci/setup-aws-config.sh
-      ./.circleci/setup-maven-m2-mirrors.sh
-
-docker-login: &docker-login
-  - run:
-      name: Docker Login
-      command: |
-        unset AWS_ACCESS_KEY_ID; unset AWS_SECRET_ACCESS_KEY;
-        ./.circleci/docker-login.sh
-
 # Template to save Maven dependency cache to restore it in another jobs
 save-maven-cache: &save-maven-cache
   save_cache:
@@ -43,10 +23,12 @@ setup-gpg: &setup-gpg
     name: "Configuring gpg"
     command: |
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
+
 machine-setup: &machine-setup
   machine:
     docker_layer_caching: false
     image: ubuntu-2204:2023.10.1
+
 jobs:
   build:
     <<: *job-defaults
@@ -56,12 +38,15 @@ jobs:
       - *setup-gpg
       - checkout
       - *attach-workspace
-      - <<: *setup-env
-      - <<: *docker-login
-      - run: gpg --version
-      - run: gpg --list-secret-keys
-      - run: ls -ld ~/.gnupg
-      - run: docker-compose run build
+      # Pull the Maven image
+      - run:
+          name: Pull Maven image
+          command: docker pull maven:3.9-eclipse-temurin-17
+      # Run Maven commands inside the Maven container
+      - run:
+          name: Run Maven commands
+          command: |
+            docker run maven:3.9-eclipse-temurin-17 mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
       - <<: *save-maven-cache
       - persist_to_workspace:
           root: *working_directory
@@ -75,27 +60,27 @@ jobs:
     steps:
       - *setup-gpg
       - *attach-workspace
-      - <<: *setup-env
-      - <<: *docker-login
       - <<: *restore-maven-cache
-      - run: docker-compose run test
+      # Pull the Maven image (assuming same version as build)
+      - run:
+          name: Pull Maven image
+          command: docker pull maven:3.9-eclipse-temurin-17
+      # Run tests inside the Maven container
+      - run:
+          name: Run tests
+          command: |
+            docker run maven:3.9-eclipse-temurin-17 mvn verify
 
 workflows:
   build_and_test:
     jobs:
       - build:
-          context:
-            - circleci
-            - github
-            - artifact-publisher
+          context: artifact-publisher
           filters:
             tags:
               only: /.*/
 
       - test:
-          context:
-            - circleci
-            - github
-            - artifact-publisher
+          context: artifact-publisher
           requires:
             - build
