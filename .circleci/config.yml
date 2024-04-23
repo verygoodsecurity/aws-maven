@@ -38,7 +38,6 @@ jobs:
       - *setup-gpg
       - checkout
       - *attach-workspace
-      - run: ls
       - run:
           name: Run Maven commands
           command: |
@@ -75,11 +74,6 @@ jobs:
       - checkout
       - *attach-workspace
       - <<: *restore-maven-cache
-      # Pull the Maven image (assuming same version as build)
-      - run:
-          name: Pull Maven image
-          command: docker pull maven:3.9-eclipse-temurin-17
-      # Run tests inside the Maven container
       - run:
           name: Run tests
           command: |
@@ -97,4 +91,4 @@ workflows:
       - test:
           context: artifact-publisher
           requires:
-            - build
+            - build11
