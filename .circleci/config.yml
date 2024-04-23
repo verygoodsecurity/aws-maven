@@ -1,8 +1,7 @@
 version: 2.1
-
 job-defaults: &job-defaults
   working_directory: &working_directory
-                       ~/aws-maven
+    ~/aws-maven
 
 attach-workspace: &attach-workspace
   attach_workspace:
