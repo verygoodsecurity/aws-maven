@@ -22,55 +22,73 @@ setup-gpg: &setup-gpg
   run:
     name: "Configuring gpg"
     command: |
+      apt-get update
+      apt-get install -y gnupg
       echo -e "$GPG_SECRET_KEY" | gpg --import --no-tty --batch --yes
 
+machine-setup: &machine-setup
+  machine:
+    docker_layer_caching: false
+    image: ubuntu-2204:2024.05.1
+
 jobs:
+
   build:
     <<: *job-defaults
     docker:
-      - image: cimg/openjdk:8.0
+      - image: maven:3.9-eclipse-temurin-17
     steps:
       - *setup-gpg
       - checkout
+      - <<: *restore-maven-cache
       - run: mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
       - <<: *save-maven-cache
-      - persist_to_workspace:
-          root: *working_directory
-          paths:
-            - "*"
-
-  build-jdk-11:
-    <<: *job-defaults
-    docker:
-      - image: cimg/openjdk:11.0
-    steps:
-      - *setup-gpg
-      - checkout
-      - run: mvn clean dependency:go-offline package install -U -DskipTests -T 2.0C -B
 
   test:
     <<: *job-defaults
     docker:
-      - image: cimg/openjdk:8.0
+      - image: maven:3.9-eclipse-temurin-17
     steps:
       - *setup-gpg
-      - *attach-workspace
+      - checkout
       - <<: *restore-maven-cache
       - run: mvn verify
+
+  release:
+    <<: *job-defaults
+    docker:
+      - image: maven:3.9-eclipse-temurin-17
+    steps:
+      - *setup-gpg
+      - checkout
+      - <<: *restore-maven-cache
+      - run: mvn versions:set -D newVersion=${CIRCLE_TAG:-$CIRCLE_SHA1} && mvn deploy -D skipTests
 
 workflows:
   build_and_test:
     jobs:
-      - build-jdk-11:
-          context: artifact-publisher
-
       - build:
           context: artifact-publisher
           filters:
             tags:
-              only: /.*/
+              only:
+                - /.*/
 
       - test:
           context: artifact-publisher
           requires:
             - build
+          filters:
+            tags:
+              only:
+                - /.*/
+      - release:
+          context: artifact-publisher
+          requires:
+            - build
+            - test
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
