@@ -54,6 +54,16 @@ jobs:
       - <<: *restore-maven-cache
       - run: mvn verify
 
+  release:
+    <<: *job-defaults
+    docker:
+      - image: maven:3.9-eclipse-temurin-17
+    steps:
+      - *setup-gpg
+      - checkout
+      - <<: *restore-maven-cache
+      - run: mvn versions:set -D newVersion=${CIRCLE_TAG:-$CIRCLE_SHA1} && mvn deploy -D skipTests
+
 workflows:
   build_and_test:
     jobs:
@@ -72,3 +82,13 @@ workflows:
             tags:
               only:
                 - /.*/
+      - release:
+          context: artifact-publisher
+          requires:
+            - build
+            - test
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
