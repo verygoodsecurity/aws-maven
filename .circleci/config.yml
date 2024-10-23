@@ -50,7 +50,7 @@ jobs:
       - image: maven:3.9-eclipse-temurin-17
     steps:
       - *setup-gpg
-      - *attach-workspace
+      - checkout
       - <<: *restore-maven-cache
       - run: mvn verify
 
