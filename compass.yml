@@ -1,0 +1,54 @@
+name: aws-maven
+id: 'ari:cloud:compass:83673fa7-fd28-4f4a-9738-f584064570a7:component/db43f86d-85fe-42e1-954d-457f5a4082b8/adf2b946-e19c-4f93-b96b-2e6aa8bb322f'
+description: This project is a fork from [https://github.com/spring-projects/aws-maven](https://github.com/spring-projects/aws-maven) to
+  support development and operations at Very Good Security ( VGS ). No guarantees are made for support or updating
+  the component, but as long as we are using it actively we will update it as we need it.
+configVersion: 1
+typeId: SERVICE
+ownerId: 'ari:cloud:identity::team/64cfeb5f-5d71-4231-9332-0519bdd112bb-48'
+fields:
+  tier: 4
+links:
+  - name: aws-maven
+    type: REPOSITORY
+    url: 'https://github.com/verygoodsecurity/aws-maven'
+  - name: ''
+    type: CHAT_CHANNEL
+    url: 'https://getverygood.slack.com/archives/C057XN649U5'
+  - name: ''
+    type: ON_CALL
+    url: 'https://very-good.pagerduty.com/service-directory/PCWO68N'
+  - name: ''
+    type: PROJECT
+    url: 'https://verygoodsecurity.atlassian.net/jira/software/c/projects/VAULT/boards/447'
+  - name: CircleCI
+    type: PROJECT
+    url: 'https://app.circleci.com/pipelines/github/verygoodsecurity/aws-maven'
+relationships: {}
+labels:
+  - aws
+  - 'language:java'
+  - maven
+  - pom
+  - s3
+  - 'source:github'
+  - team-vault
+customFields:
+  - name: Logging
+    type: text
+    value: v2023-05-01
+  - name: Metrics
+    type: text
+    value: null
+  - name: Service Name
+    type: text
+    value: aws-maven
+  - name: Tracing
+    type: text
+    value: v2023-05-01
+  - name: statusIO
+    type: text
+    value: null
+
+# Learn more about formatting compass.yml:
+# https://go.atlassian.com/compass-yml-format
