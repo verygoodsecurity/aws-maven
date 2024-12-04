@@ -4,7 +4,7 @@ description: This project is a fork from [https://github.com/spring-projects/aws
   support development and operations at Very Good Security ( VGS ). No guarantees are made for support or updating
   the component, but as long as we are using it actively we will update it as we need it.
 configVersion: 1
-typeId: SERVICE
+typeId: LIBRARY
 ownerId: 'ari:cloud:identity::team/64cfeb5f-5d71-4231-9332-0519bdd112bb-48'
 fields:
   tier: 4
@@ -15,9 +15,6 @@ links:
   - name: ''
     type: CHAT_CHANNEL
     url: 'https://getverygood.slack.com/archives/C057XN649U5'
-  - name: ''
-    type: ON_CALL
-    url: 'https://very-good.pagerduty.com/service-directory/PCWO68N'
   - name: ''
     type: PROJECT
     url: 'https://verygoodsecurity.atlassian.net/jira/software/c/projects/VAULT/boards/447'
