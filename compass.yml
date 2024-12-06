@@ -30,22 +30,6 @@ labels:
   - s3
   - 'source:github'
   - team-vault
-customFields:
-  - name: Logging
-    type: text
-    value: v2023-05-01
-  - name: Metrics
-    type: text
-    value: null
-  - name: Service Name
-    type: text
-    value: aws-maven
-  - name: Tracing
-    type: text
-    value: v2023-05-01
-  - name: statusIO
-    type: text
-    value: null
 
 # Learn more about formatting compass.yml:
 # https://go.atlassian.com/compass-yml-format
