@@ -5,7 +5,7 @@ description: This project is a fork from [https://github.com/spring-projects/aws
   the component, but as long as we are using it actively we will update it as we need it.
 configVersion: 1
 typeId: LIBRARY
-ownerId: 'ari:cloud:identity::team/64cfeb5f-5d71-4231-9332-0519bdd112bb-48'
+ownerId: 'ari:cloud:identity::team/64cfeb5f-5d71-4231-9332-0519bdd112bb-62'
 fields:
   tier: 4
 links:
@@ -14,7 +14,7 @@ links:
     url: 'https://github.com/verygoodsecurity/aws-maven'
   - name: ''
     type: CHAT_CHANNEL
-    url: 'https://getverygood.slack.com/archives/C057XN649U5'
+    url: 'https://getverygood.slack.com/archives/C01M8EXA553'
   - name: ''
     type: PROJECT
     url: 'https://verygoodsecurity.atlassian.net/jira/software/c/projects/VAULT/boards/447'
